@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.akginara.mapper.BoardSellMapper">
+	<select id="getList" resultType="org.akginara.domain.BoardSellVO">
+		<![CDATA[
+		select * from tbl_board_sell where bno > 0 order by bno desc
+		]]>
+	</select>
+	
+	<insert id="insert">
+		insert into tbl_board_sell(bno, writer, title, content, price, district, category)
+							values(seq_board_sell.nextval, #{writer}, #{title}, #{content}, #{price}, #{district}, #{category})
+	</insert>
+
+	<select id="read" resultType="org.akginara.domain.BoardSellVO">
+		select * from tbl_board_sell where bno = #{bno}
+	</select>
+	
+	<delete id="delete">
+		delete from tbl_board_sell where bno = #{bno}
+	</delete>
+	
+	<update id="update">
+		update tbl_board_sell set title = #{title}, content = #{content}, price = #{price}, district = #{district},
+									category = #{category}, updateDate = sysdate where bno = #{bno}
+	</update>
+	
+</mapper>
