@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@include file="../includes/header.jsp"%>
 
+<style>
+	li {
+		display: inline-block;
+	}
+</style>
+
 <script>
 	$(function () {
 		var formObj = $("form[role='form']");
@@ -36,25 +42,27 @@
 			return true;
 		}
 		
-		function showUploadedFile(uploadResultArr) {
+		function showUploadedResult(uploadResultArr) {
 			
 			if(!uploadResultArr || uploadResultArr.lenth == 0) {
 				return;
 			}
 			
-			var uploadUL = $(".uploadResult > ul");
+			var uploadUL = $(".uploadResult ul");
 			var str = "";
 			
 			$(uploadResultArr).each(function(i, obj) {
-				var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
-				str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'><div>";
-				str += "<span>" + obj.fileName + "</span>";
-				str += "<button type='button' data-file=\'" + fileCallPath + "\'data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-				str += "<img src='/display?fileName=" + fileCallPath + "'>";
-				str += "</div></li>";
+				if(obj.image) {
+					var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+					str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'><div>";
+					str += "<span>" + obj.fileName + "</span>";
+					str += "<button type='button' data-file=\'" + fileCallPath + "\'data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+					str += "<img src='/akginara/display?fileName=" + fileCallPath + "'>";
+					str += "</div></li>";
+				}
 			});
 			
-			uploadResult.append(str);
+			uploadUL.append(str);
 		}
 		
 		$(".uploadResult").on("click", "button", function(e) {
@@ -69,7 +77,6 @@
 				dataType: 'text',
 				type: 'POST',
 				success: function(result) {
-					alert(result);
 					targetLi.remove();
 				}
 			});
@@ -88,30 +95,28 @@
 			}
 			
 			$.ajax ({
-				url: "/akginara/uploadAjaxAction",
+				url: '/akginara/uploadAjaxAction',
 				processData: false,
 				contentType: false,
 				data: formData,
-				type: "POST",
-				dataType: "json",
+				type: 'POST',
+				dataType: 'json',
 				success: function (result) {
-					console.log(result);
-					showUploadedFile(result);
-					$("uploadDiv").html(cloneObj.html());
+					showUploadedResult(result);
 				}
 			});
 		});
 	});
 </script>
 
-
 	<div class="container" style="margin-top:30px">
 		<h2><b>글쓰기</b></h2><hr><br>
-		<form action="/akginara/register" method="post" role="form">
+		<form action="/akginara/sell/register" method="post" role="form">
+				<input type="hidden" class="form-control" name="writer" value="배씨">
 			<div class="form-group">
 				<label for="category">카테고리</label>
 				<select class="form-control" name="category" style="width:150px">
-							<option selected>카테고리 선택</option>
+							<option value="무관"selected>카테고리 선택</option>
 							<option value="기타">기타</option>
 							<option value="베이스">베이스</option>
 							<option value="드럼">드럼</option>
@@ -154,7 +159,7 @@
 				<label for="uploadFile">사진</label><br>
 				<input type="file" name="uploadFile" multiple>
 			</div>
-			
+		
 			<div class="uploadResult">
 				<ul>
 				
@@ -167,10 +172,10 @@
 			</div>
 			<hr>
 			
-			<div class="form-group">
-				<button type="submit" class="btn btn-primary" style="float:right">글쓰기</button>
+			<div class="container" style="text-align: right; margin-bottom: 20px;">
+				<button type="submit" class="btn btn-primary">글쓰기</button>
 			</div>
 		</form>
 	</div>
-
+	
 <%@include file="../includes/footer.jsp"%>

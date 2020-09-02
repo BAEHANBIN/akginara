@@ -1,6 +1,6 @@
 package org.akginara.controller;
 
-import java.io.File;
+import java.io.File; 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -12,13 +12,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.akginara.domain.BoardSellAttachVO;
+import org.akginara.domain.AttachFileDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,30 +32,6 @@ import net.coobird.thumbnailator.Thumbnailator;
 @Log4j
 @RequestMapping("/akginara/*")
 public class UploadController {
-	@GetMapping("/uploadForm")
-	public void uploadForm() {
-		log.info("upload form");
-	}
-	
-	@PostMapping("/uploadformAction")
-	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
-		String uploadFolder = "C:\\upload";
-		
-		for (MultipartFile multipartFile : uploadFile) {
-			log.info("----------------------------------------");
-			log.info("Upload File Name : " + multipartFile.getOriginalFilename());
-			log.info("Upload File Size : " + multipartFile.getSize());
-			
-			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
-			
-			try {
-				multipartFile.transferTo(saveFile);
-				
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-		}
-	}
 	
 	@GetMapping("/uploadAjax")
 	public void uploadAjax() {
@@ -85,18 +60,18 @@ public class UploadController {
 	
 	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<BoardSellAttachVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
-		List<BoardSellAttachVO> list = new ArrayList<>();
+	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
+		List<AttachFileDTO> list = new ArrayList<>();
 		String uploadFolder = "C:\\upload";
 		String uploadFolderPath = getFolder();
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
 		
 		if (uploadPath.exists() == false) {
-			uploadPath.mkdir();
+			uploadPath.mkdirs();
 		}
 		
 		for (MultipartFile multipartFile : uploadFile) {
-			BoardSellAttachVO attach = new BoardSellAttachVO();
+			AttachFileDTO attach = new AttachFileDTO();
 			String uploadFileName = multipartFile.getOriginalFilename();
 			
 			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
@@ -113,7 +88,7 @@ public class UploadController {
 				attach.setUploadPath(uploadFolderPath);
 				
 				if (checkImageType(saveFile)) {
-					attach.setFileType(true);
+					attach.setImage(true);
 					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
 					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
 					thumbnail.close();
@@ -122,7 +97,7 @@ public class UploadController {
 				list.add(attach);
 				
 			} catch (Exception e) {
-				log.error(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);

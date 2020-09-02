@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -7,68 +9,54 @@
     <title>중고악기나라</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+ 
+	<!-- Bootstrap core CSS -->
+	<link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Custom fonts for this template -->
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
+	
+	<!-- Custom styles for this template -->
+	<link href="/resources/css/business-casual.min.css" rel="stylesheet">
+	
+	<!-- Bootstrap core JavaScript -->
+	<script src="/resources/vendor/jquery/jquery.min.js"></script>
+	<script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    
-    <!-- Icon -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
+
 <body>
-    <div class="jumbotron" style="padding-top: 0; margin-bottom: 0">
-        <nav class="navbar navbar-expand-sm justify-content-end">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/akginara/login">로그인</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/akginara/logout">로그아웃</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/akginara/join">회원가입</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">마이페이지</a>
-                </li>
-            </ul>
-        </nav>
-        <div class="container">
-            <h1><b><a href="/akginara">중고악기나라</a></b></h1>
-        </div>
-    </div>
-
-	 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <div class="container-sm">
-                <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/akginara/sell/list">거래하기</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">사용후기</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">묻고답하기</a>
-                </li>    
-            </ul>
-            </div>
-        </div>  
-    </nav>
-    
-    <div id="page-wrapper">
-
-    
-</body>
-</html>
+	<header>
+	<h1 class="site-heading text-center text-black d-none d-lg-block">
+		<span class="site-heading-lower"><b>중고악기나라</b></span>
+	</h1>
+	</header>
+	
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+		<div class="container">
+			<a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="#">중고악기나라</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav mx-auto">
+					<li class="nav-item active px-lg-4">
+						<a class="nav-link text-uppercase text-expanded" href="/akginara/sell/list">거래하기
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item px-lg-4">
+						<a class="nav-link text-uppercase text-expanded" href="about.html">About</a>
+					</li>
+					<li class="nav-item px-lg-4">
+						<a class="nav-link text-uppercase text-expanded" href="products.html">Products</a>
+					</li>
+					<li class="nav-item px-lg-4">
+						<a class="nav-link text-uppercase text-expanded" href="store.html">Store</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>

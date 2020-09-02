@@ -1,13 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="../includes/header.jsp"%>
 
 <script>
 	$(function () {
+		var result = "<c:out value='${result}'/>";
+		checkModal(result);
+		history.replaceState({}, null, null);
+		
+		function checkModal(result) {
+			if (result === '' || history.state) {
+				return;
+			}
+			$("#myModal").modal("show");
+		}
+		
 		$("#regBtn").on("click", function () {
 			self.location = "/akginara/sell/register";
+		});
+		
+		var actionForm = $("#actionForm");
+		
+		$(".paginate_button a").on("click", function (e) {
+			e.preventDefault();
+			console.log("click");
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+		});
+		
+		$(".move").on("click", function (e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='bno' value='" + $(this).attr("href") + "'>");
+			actionForm.attr("action", "/akginara/sell/get");
+			actionForm.submit();
 		});
 	});
 </script>
@@ -40,7 +65,7 @@
             		<td>
             			<c:choose>
             				<c:when test="${sell.state == true}"><strike><c:out value="${sell.title}"/></strike></c:when>
-            				<c:when test="${sell.state == false}"><a href="#"><c:out value="${sell.title}"/></a></c:when>
+            				<c:when test="${sell.state == false}"><a class="move" href="<c:out value='${sell.bno}'/>"><c:out value="${sell.title}"/></a></c:when>
             			</c:choose>
             		</td>
             		<td style="text-align: center"><c:out value="${sell.price}"/></td>
@@ -51,60 +76,85 @@
             </c:forEach>
         </table>
     </div>
+    <hr>
     <div class="container" style="text-align: right">
         <button id="regBtn" class="btn btn-primary btn-sm">글쓰기</button>
     </div>
+    
+    <!-- Paging -->
+    <form action="/akginara/sell/list" method="get" id="actionForm">
+    	<input type="hidden" name="pageNum" value="<c:out value='${pageMaker.cri.pageNum}'/>">
+    	<input type="hidden" name="amount" value="<c:out value='${pageMaker.cri.amount}'/>">
+    </form>
     <div class="container">
         <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0);">5</a></li>
-            <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
-          </ul>
-    </div>
-    <div class="container">
-        <table class="table table-borderless">
-            <tr>
-                <th>카테고리</th>
-                <td>
-                    <select>
-                        <option>선택</option>
-                        <option>기타</option>
-                        <option>베이스</option>
-                        <option>드럼</option>
-                        <option>신디</option>
-                        <option>키보드</option>
-                        <option>각종장비</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>지역</th>
-                <td>
-                    <select>
-                        <option>서울</option>
-                        <option>대전</option>
-                        <option>대구</option>
-                        <option>부산</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    <select>
-                        <option>제목</option>
-                        <option>작성자</option>
-                    </select>
-                </th>
-                <td>
-                    <input type="text" name="search" size="20">
-                    <button type="button" class="btn btn-primary btn-sm">검색</button>
-                </td>
-            </tr>
-        </table>
-    </div>
+			<c:if test="${pageMaker.prev}">
+				<li class="paginate_button previous"><a class="page-link" href='<c:out value="${pageMaker.startPage - 1}"/>'>이전</a></li>
+			</c:if>
+			<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+				<li class="paginate_button" ${pageMaker.cri.pageNum == num ? "active":""}><a class="page-link" href='<c:out value="${num}"/>'>${num}</a></li>
+			</c:forEach>
+			<c:if test="${pageMaker.next}">
+				<li class="paginate_button next"><a class="page-link" href="<c:out value='${pageMaker.endPage + 1}'/>">다음</a></li>
+			</c:if>
+		</ul>
+	</div>
+	<div class="container">
+		<table class="table table-borderless">
+			<tr>
+				<th>카테고리</th>
+				<td>
+					<select>
+						<option>선택</option>
+						<option>기타</option>
+						<option>베이스</option>
+						<option>드럼</option>
+						<option>신디</option>
+						<option>키보드</option>
+						<option>각종장비</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>지역</th>
+				<td>
+					<select>
+						<option>서울</option>
+						<option>대전</option>
+						<option>대구</option>
+						<option>부산</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<select>
+						<option>제목</option>
+						<option>작성자</option>
+					</select>
+				</th>
+				<td>
+					<input type="text" name="search" size="20">
+					<button type="button" class="btn btn-primary btn-sm">검색</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+    
+   	<!-- Modal Add  -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">메시지</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">글 처리가 완료되었습니다.</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
     
 <%@include file="../includes/footer.jsp"%>

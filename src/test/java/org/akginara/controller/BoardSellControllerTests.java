@@ -33,28 +33,29 @@ public class BoardSellControllerTests {
 	
 	@Test
 	//리스트 테스트
-//	public void testList() throws Exception {
-//		log.info(mock.perform(MockMvcRequestBuilders.get("/sell/list")).andReturn().getModelAndView().getModelMap());
-//	}
+	public void testListPaging() throws Exception {
+		log.info(mock.perform(MockMvcRequestBuilders.get("/akginara/sell/list").param("pageNum", "2").param("amount", "50")).andReturn().getModelAndView().getModelMap());
+	}
 	
 	//쓰기 테스트
 //	public void testRegister() throws Exception {
-//		String resultPage = mock.perform(MockMvcRequestBuilders.post("/sell/register")
+//		String resultPage = mock.perform(MockMvcRequestBuilders.post("/akginara/sell/register")
 //																.param("title", "컨트롤러 테스트 제목")
 //																.param("content", "컨트롤러 테스트 내용")
 //																.param("writer", "userTest")
 //																.param("price", "500000")
-//																.param("district", "인천")
+//																.param("district", "서울")
 //																.param("category", "베이스"))
 //								.andReturn()
 //								.getModelAndView()
 //								.getViewName();
-//		log.info(resultPage);
+//		log.error(resultPage);
+//		log.info("---------------------------" + resultPage);
 //	}
 	
 	//읽기 테스트
 //	public void testGet() throws Exception {
-//		log.info(mock.perform(MockMvcRequestBuilders.get("/sell/get").param("bno", "5"))
+//		log.info(mock.perform(MockMvcRequestBuilders.get("/akginara/sell/get").param("bno", "3"))
 //						.andReturn()
 //						.getModelAndView()
 //						.getModelMap());
@@ -62,7 +63,7 @@ public class BoardSellControllerTests {
 	
 	//수정 테스트
 //	public void testModify() throws Exception {
-//		String resultPage = mock.perform(MockMvcRequestBuilders.post("/sell/modify")
+//		String resultPage = mock.perform(MockMvcRequestBuilders.post("/akginara/sell/modify")
 //																.param("bno", "7")
 //																.param("title", "수정된 컨트롤러 테스트")
 //																.param("content", "asdf")
@@ -76,11 +77,11 @@ public class BoardSellControllerTests {
 //	}
 	
 	//삭제 테스트
-	public void testRemove() throws Exception {
-		String resultPage = mock.perform(MockMvcRequestBuilders.post("/sell/remove").param("bno", "6"))
-								.andReturn()
-								.getModelAndView()
-								.getViewName();
-		log.info(resultPage);
-	}
+//	public void testRemove() throws Exception {
+//		String resultPage = mock.perform(MockMvcRequestBuilders.post("/sell/remove").param("bno", "6"))
+//								.andReturn()
+//								.getModelAndView()
+//								.getViewName();
+//		log.info(resultPage);
+//	}
 }

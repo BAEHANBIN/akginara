@@ -1,6 +1,8 @@
 package org.akginara.service;
 
-import org.akginara.domain.BoardSellVO;
+import static org.junit.Assert.assertNotNull;
+
+import org.akginara.domain.Criteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +23,15 @@ public class BoardSellServiceTests {
 	@Test
 	
 	//연결 테스트
-/*	public void testExist() {
-		log.info(service);
-		assertNotNull(service);
-	}*/
+//	public void testExist() {
+//		log.info(service);
+//		assertNotNull(service);
+//	}
 	
 	//리스트 테스트
-//	public void testGetList() {
-//		service.getList().forEach(board -> log.info(board));
-//	}
+	public void testGetList(Criteria cri) {
+		service.getList(cri).forEach(board -> log.info(board));
+	}
 	
 	//쓰기 테스트
 //	public void testRegister() {
@@ -64,7 +66,7 @@ public class BoardSellServiceTests {
 //	}
 	
 	//삭제 테스트
-	 public void testRemove() {
-		log.info("remove result : " + service.remove(4L));
-	}
+//	 public void testRemove() {
+//		log.info("remove result : " + service.remove(4L));
+//	}
 }
