@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@include file="../includes/header.jsp"%>
 
+<style>
+	#wrap {
+		text-align: center;
+	}
+</style>
+
 <script>
 	$(function () {
 		var result = "<c:out value='${result}'/>";
@@ -21,10 +27,13 @@
 		
 		var actionForm = $("#actionForm");
 		
-		$(".paginate_button a").on("click", function (e) {
+		$(".page-item a").on("click", function (e) {
 			e.preventDefault();
-			console.log("click");
 			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+		});
+		
+		$("#amount_Select").on("change", function (e) {
 			actionForm.submit();
 		});
 		
@@ -39,6 +48,19 @@
 
     <div class="container" style="margin-top:30px">
         <h2><b>거래하기</b></h2><br>
+        <div  style="text-align: right; margin-bottom: 20px;">
+	        <form action="/akginara/sell/list" method="get" id="actionForm">
+		    	<input type="hidden" name="pageNum" value="<c:out value='${pageMaker.cri.pageNum}'/>">
+		    	<%-- <input type="hidden" name="amount" value="<c:out value='${pageMaker.cri.amount}'/>"> --%>
+		    	<select class="btn btn-default" id="amount_Select" name="amount">
+											<option value="10" <c:out value="${pageMaker.cri.amount == 10 ? 'selected' : ''}"/>>10개씩 보기</option>
+											<option value="15" <c:out value="${pageMaker.cri.amount == 15 ? 'selected' : ''}"/>>15개씩 보기</option>
+											<option value="20" <c:out value="${pageMaker.cri.amount == 20 ? 'selected' : ''}"/>>20개씩 보기</option>
+											<option value="25" <c:out value="${pageMaker.cri.amount == 25 ? 'selected' : ''}"/>>25개씩 보기</option>
+											<option value="30" <c:out value="${pageMaker.cri.amount == 30 ? 'selected' : ''}"/>>30개씩 보기</option>
+				</select>
+		    </form>
+	   	</div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -82,64 +104,87 @@
     </div>
     
     <!-- Paging -->
-    <form action="/akginara/sell/list" method="get" id="actionForm">
-    	<input type="hidden" name="pageNum" value="<c:out value='${pageMaker.cri.pageNum}'/>">
-    	<input type="hidden" name="amount" value="<c:out value='${pageMaker.cri.amount}'/>">
-    </form>
     <div class="container">
         <ul class="pagination justify-content-center">
 			<c:if test="${pageMaker.prev}">
-				<li class="paginate_button previous"><a class="page-link" href='<c:out value="${pageMaker.startPage - 1}"/>'>이전</a></li>
+				<li class="page-item"><a class="page-link" href='<c:out value="${pageMaker.firstPage}"/>'>처음</a></li>
+			</c:if>
+			<c:if test="${pageMaker.prev}">
+				<li class="page-item"><a class="page-link" href='<c:out value="${pageMaker.startPage - 1}"/>'>이전</a></li>
 			</c:if>
 			<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-				<li class="paginate_button" ${pageMaker.cri.pageNum == num ? "active":""}><a class="page-link" href='<c:out value="${num}"/>'>${num}</a></li>
+				<li class="page-item ${pageMaker.cri.pageNum == num ? 'active':''}"><a class="page-link" href='<c:out value="${num}"/>'>${num}</a></li>
 			</c:forEach>
 			<c:if test="${pageMaker.next}">
-				<li class="paginate_button next"><a class="page-link" href="<c:out value='${pageMaker.endPage + 1}'/>">다음</a></li>
+				<li class="page-item"><a class="page-link" href="<c:out value='${pageMaker.endPage + 1}'/>">다음</a></li>
+			</c:if>
+			<c:if test="${pageMaker.next}">
+				<li class="page-item"><a class="page-link" href="<c:out value='${pageMaker.lastPage}'/>">마지막</a></li>
 			</c:if>
 		</ul>
 	</div>
-	<div class="container">
-		<table class="table table-borderless">
+	
+	<form id="searchForm" action="/akginara/sell/list" method="get">
+		<table class="table table-borderless" style="width: 500px; margin-left: auto; margin-right: auto;">
 			<tr>
 				<th>카테고리</th>
 				<td>
-					<select>
-						<option>선택</option>
-						<option>기타</option>
-						<option>베이스</option>
-						<option>드럼</option>
-						<option>신디</option>
-						<option>키보드</option>
-						<option>각종장비</option>
+					<select class="form-control" name="category" style="width:150px">
+							<option selected>카테고리 선택</option>
+							<option value="기타">기타</option>
+							<option value="베이스">베이스</option>
+							<option value="드럼">드럼</option>
+							<option value="키보드">키보드</option>
+							<option value="신디">신디</option>
+							<option value="이펙터">이펙터</option>
+							<option value="음향장비">음향장비</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<th>지역</th>
 				<td>
-					<select>
-						<option>서울</option>
-						<option>대전</option>
-						<option>대구</option>
-						<option>부산</option>
-					</select>
+					<select class="form-control" name="district" style="width:150px">
+							<option selected>카테고리 선택</option>
+							<option value="서울">서울</option>
+							<option value="대전">대전</option>
+							<option value="대구">대구</option>
+							<option value="울산">울산</option>
+							<option value="부산">부산</option>
+							<option value="경기">경기</option>
+							<option value="강원">강원</option>
+							<option value="경남">경남</option>
+							<option value="경북">경북</option>
+							<option value="전남">전남</option>
+							<option value="전북">전북</option>
+							<option value="충남">충남</option>
+							<option value="충북">충북</option>
+							<option value="제주">제주</option>
+				</select>
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<select>
-						<option>제목</option>
-						<option>작성자</option>
+					<select name="type">
+						<option selected>선택</option>
+						<option value="T">제목</option>
+						<option value="C">내용</option>
+						<option value="W">작성자</option>
+						<option value="TC">제목 or 내용</option>
+						<option value="TW">제목 or 작성자</option>
+						<option value="TWC">제목 or 내용 or 작성자</option>
 					</select>
 				</th>
 				<td>
-					<input type="text" name="search" size="20">
+					<input type="hidden" name="pageNum" value="<c:out value='${pageMaker.cri.pageNum}'/>">
+		    		<input type="hidden" name="amount" value="<c:out value='${pageMaker.cri.amount}'/>">
+					<input type="text" name="keyword" size="20">
 					<button type="button" class="btn btn-primary btn-sm">검색</button>
 				</td>
 			</tr>
 		</table>
-	</div>
+	</form>
+	
     
    	<!-- Modal Add  -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

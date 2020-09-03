@@ -11,6 +11,8 @@ public class PageDTO {
 	private boolean prev, next;
 	private int total;
 	private Criteria cri;
+	private int firstPage;
+	private int lastPage;
 	
 	public PageDTO(Criteria cri, int total) {
 		this.cri = cri;
@@ -26,5 +28,8 @@ public class PageDTO {
 		
 		this.prev = this.startPage > 1;
 		this.next = this.endPage < realEnd;
+		
+		this.firstPage = 1;
+		this.lastPage = realEnd;
 	}
 }

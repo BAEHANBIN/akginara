@@ -56,7 +56,7 @@
 					var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
 					str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'><div>";
 					str += "<span>" + obj.fileName + "</span>";
-					str += "<button type='button' data-file=\'" + fileCallPath + "\'data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+					str += "<button type='button' data-file=\'" + fileCallPath + "\'data-type='image' class='btn btn-warning'><i class='close'></i></button><br>";
 					str += "<img src='/akginara/display?fileName=" + fileCallPath + "'>";
 					str += "</div></li>";
 				}
@@ -116,7 +116,7 @@
 			<div class="form-group">
 				<label for="category">카테고리</label>
 				<select class="form-control" name="category" style="width:150px">
-							<option value="무관"selected>카테고리 선택</option>
+							<option selected>카테고리 선택</option>
 							<option value="기타">기타</option>
 							<option value="베이스">베이스</option>
 							<option value="드럼">드럼</option>
@@ -130,6 +130,7 @@
 				<label for="district">지역</label>
 				<select class="form-control" name="district" style="width:150px">
 							<option>지역 선택</option>
+							<option selected>카테고리 선택</option>
 							<option value="서울">서울</option>
 							<option value="대전">대전</option>
 							<option value="대구">대구</option>
