@@ -47,7 +47,7 @@ public class BoardSellController {
 			sell.getAttachList().forEach(attach -> log.info(attach));
 		}
 		service.register(sell);
-		rttr.addFlashAttribute("result", sell.getBno());
+		rttr.addFlashAttribute("result", "success");
 		log.info(sell.getBno());
 		return "redirect:/akginara/sell/list";
 	}

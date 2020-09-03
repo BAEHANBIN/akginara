@@ -18,6 +18,7 @@
 			if (result === '' || history.state) {
 				return;
 			}
+			
 			$("#myModal").modal("show");
 		}
 		
@@ -43,12 +44,29 @@
 			actionForm.attr("action", "/akginara/sell/get");
 			actionForm.submit();
 		});
+		
+		var searchForm = $("#searchForm");
+		$("#searchForm button").on("click", function(e) {
+			if (!searchForm.find("#type option:selected").val()) {
+				alert("검색종류를 선택하세요!");
+				return false;
+			}
+			
+			if (!searchForm.find("input[name='keyword']").val()) {
+				alert("키워드를 입력하세요!")
+				return false;
+			}
+			
+			searchForm.find("input[name='pageNum']").val("1");
+			e.preventDefault();
+			searchForm.submit();
+		});
 	});
 </script>
 
     <div class="container" style="margin-top:30px">
         <h2><b>거래하기</b></h2><br>
-        <div  style="text-align: right; margin-bottom: 20px;">
+        <div style="text-align: right; margin-bottom: 20px;">
 	        <form action="/akginara/sell/list" method="get" id="actionForm">
 		    	<input type="hidden" name="pageNum" value="<c:out value='${pageMaker.cri.pageNum}'/>">
 		    	<%-- <input type="hidden" name="amount" value="<c:out value='${pageMaker.cri.amount}'/>"> --%>
@@ -130,14 +148,14 @@
 				<th>카테고리</th>
 				<td>
 					<select class="form-control" name="category" style="width:150px">
-							<option selected>카테고리 선택</option>
-							<option value="기타">기타</option>
-							<option value="베이스">베이스</option>
-							<option value="드럼">드럼</option>
-							<option value="키보드">키보드</option>
-							<option value="신디">신디</option>
-							<option value="이펙터">이펙터</option>
-							<option value="음향장비">음향장비</option>
+							<option value="" <c:out value="${pageMaker.cri.category == null ? 'selected' : ''}"/>>카테고리 선택</option>
+							<option value="기타" <c:out value="${pageMaker.cri.category == '기타' ? 'selected' : ''}"/>>기타</option>
+							<option value="베이스" <c:out value="${pageMaker.cri.category == '베이스' ? 'selected' : ''}"/>>베이스</option>
+							<option value="드럼" <c:out value="${pageMaker.cri.category == '드럼' ? 'selected' : ''}"/>>드럼</option>
+							<option value="키보드" <c:out value="${pageMaker.cri.category == '키보드' ? 'selected' : ''}"/>>키보드</option>
+							<option value="신디" <c:out value="${pageMaker.cri.category == '신디' ? 'selected' : ''}"/>>신디</option>
+							<option value="이펙터" <c:out value="${pageMaker.cri.category == '이펙터' ? 'selected' : ''}"/>>이펙터</option>
+							<option value="음향장비" <c:out value="${pageMaker.cri.category == '음향장비' ? 'selected' : ''}"/>>음향장비</option>
 					</select>
 				</td>
 			</tr>
@@ -145,41 +163,41 @@
 				<th>지역</th>
 				<td>
 					<select class="form-control" name="district" style="width:150px">
-							<option selected>카테고리 선택</option>
-							<option value="서울">서울</option>
-							<option value="대전">대전</option>
-							<option value="대구">대구</option>
-							<option value="울산">울산</option>
-							<option value="부산">부산</option>
-							<option value="경기">경기</option>
-							<option value="강원">강원</option>
-							<option value="경남">경남</option>
-							<option value="경북">경북</option>
-							<option value="전남">전남</option>
-							<option value="전북">전북</option>
-							<option value="충남">충남</option>
-							<option value="충북">충북</option>
-							<option value="제주">제주</option>
+							<option value="" <c:out value="${pageMaker.cri.district == null ? 'selected' : ''}"/>>카테고리 선택</option>
+							<option value="서울" <c:out value="${pageMaker.cri.district == '서울' ? 'selected' : ''}"/>>서울</option>
+							<option value="대전" <c:out value="${pageMaker.cri.district == '대전' ? 'selected' : ''}"/>>대전</option>
+							<option value="대구" <c:out value="${pageMaker.cri.district == '대구' ? 'selected' : ''}"/>>대구</option>
+							<option value="울산" <c:out value="${pageMaker.cri.district == '울산' ? 'selected' : ''}"/>>울산</option>
+							<option value="부산" <c:out value="${pageMaker.cri.district == '부산' ? 'selected' : ''}"/>>부산</option>
+							<option value="경기" <c:out value="${pageMaker.cri.district == '경기' ? 'selected' : ''}"/>>경기</option>
+							<option value="강원" <c:out value="${pageMaker.cri.district == '강원' ? 'selected' : ''}"/>>강원</option>
+							<option value="경남" <c:out value="${pageMaker.cri.district == '경남' ? 'selected' : ''}"/>>경남</option>
+							<option value="경북" <c:out value="${pageMaker.cri.district == '경북' ? 'selected' : ''}"/>>경북</option>
+							<option value="전남" <c:out value="${pageMaker.cri.district == '전남' ? 'selected' : ''}"/>>전남</option>
+							<option value="전북" <c:out value="${pageMaker.cri.district == '전북' ? 'selected' : ''}"/>>전북</option>
+							<option value="충남" <c:out value="${pageMaker.cri.district == '충남' ? 'selected' : ''}"/>>충남</option>
+							<option value="충북" <c:out value="${pageMaker.cri.district == '충북' ? 'selected' : ''}"/>>충북</option>
+							<option value="제주" <c:out value="${pageMaker.cri.district == '제주' ? 'selected' : ''}"/>>제주</option>
 				</select>
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<select name="type">
-						<option selected>선택</option>
-						<option value="T">제목</option>
-						<option value="C">내용</option>
-						<option value="W">작성자</option>
-						<option value="TC">제목 or 내용</option>
-						<option value="TW">제목 or 작성자</option>
-						<option value="TWC">제목 or 내용 or 작성자</option>
+					<select name="type" id="type">
+						<option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}"/>>선택</option>
+						<option value="T" <c:out value="${pageMaker.cri.type == 'T' ? 'selected' : ''}"/>>제목
+						<option value="C" <c:out value="${pageMaker.cri.type == 'C' ? 'selected' : ''}"/>>내용</option>
+						<option value="W" <c:out value="${pageMaker.cri.type == 'W' ? 'selected' : ''}"/>>작성자</option>
+						<option value="TC" <c:out value="${pageMaker.cri.type == 'TC' ? 'selected' : ''}"/>>제목 or 내용</option>
+						<option value="TW" <c:out value="${pageMaker.cri.type == 'TW' ? 'selected' : ''}"/>>제목 or 작성자</option>
+						<option value="TWC" <c:out value="${pageMaker.cri.type == 'TWC' ? 'selected' : ''}"/>>제목 or 내용 or 작성자</option>
 					</select>
 				</th>
 				<td>
 					<input type="hidden" name="pageNum" value="<c:out value='${pageMaker.cri.pageNum}'/>">
 		    		<input type="hidden" name="amount" value="<c:out value='${pageMaker.cri.amount}'/>">
 					<input type="text" name="keyword" size="20">
-					<button type="button" class="btn btn-primary btn-sm">검색</button>
+					<button class="btn btn-primary btn-sm">검색</button>
 				</td>
 			</tr>
 		</table>

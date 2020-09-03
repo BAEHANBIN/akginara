@@ -12,6 +12,8 @@ public class Criteria {
 	private int amount;
 	private String type;
 	private String keyword;
+	private String category;
+	private String district;
 	
 	public Criteria() {
 		this(1, 10);

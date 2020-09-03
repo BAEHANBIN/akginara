@@ -10,6 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
  
+ 	<!-- Bootstrap core JavaScript -->
+	<script src="/resources/vendor/jquery/jquery.min.js"></script>
+	<script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
+	
 	<!-- Bootstrap core CSS -->
 	<link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -19,20 +24,13 @@
 	
 	<!-- Custom styles for this template -->
 	<link href="/resources/css/business-casual.min.css" rel="stylesheet">
-	
-	<!-- Bootstrap core JavaScript -->
-	<script src="/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	
-	<!-- thumbnail -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
 	<header>
 	<h1 class="site-heading text-center text-black d-none d-lg-block">
-		<span class="site-heading-lower"><b>중고악기나라</b></span>
+		<span class="site-heading-lower"><a href="/akginara"><img src="/resources/img/logo.jpg" height="250"></a></span>
 	</h1>
 	</header>
 	

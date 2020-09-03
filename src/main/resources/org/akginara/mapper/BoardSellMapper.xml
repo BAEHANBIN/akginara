@@ -9,18 +9,88 @@
 		]]>
 	</select>
 	
-	<sql id="criteria">
+	<sql id="criteria_category">
 		<trim prefix="(" suffix=") and " prefixOverrides="or">
-			
+			<choose>
+				<when test="category == '기타'">
+					category like '%'||'기타'||'%'
+				</when>
+				<when test="category == '베이스'">
+					category like '%'||'베이스'||'%'
+				</when>
+				<when test="category == '드럼'">
+					category like '%'||'드럼'||'%'
+				</when>
+				<when test="category == '키보드'">
+					category like '%'||'키보드'||'%'
+				</when>
+				<when test="category == '신디'">
+					category like '%'||'신디'||'%'
+				</when>
+				<when test="category == '이펙터'">
+					category like '%'||'이펙터'||'%'
+				</when>
+				<when test="category == '음향장비'">
+					category like '%'||'음향장비'||'%'
+				</when>
+			</choose>
+		</trim>
+	</sql>
+	
+	<sql id="criteria_district">
+		<trim prefix="(" suffix=") and " prefixOverrides="or">
+			<choose>
+				<when test="district == '서울'">
+					category like '%'||'서울'||'%'
+				</when>
+				<when test="district == '대전'">
+					category like '%'||'대전'||'%'
+				</when>
+				<when test="district == '대구'">
+					category like '%'||'대구'||'%'
+				</when>
+				<when test="district == '울산'">
+					category like '%'||'울산'||'%'
+				</when>
+				<when test="district == '부산'">
+					category like '%'||'부산'||'%'
+				</when>
+				<when test="district == '경기'">
+					category like '%'||'경기'||'%'
+				</when>
+				<when test="district == '강원'">
+					category like '%'||'강원'||'%'
+				</when>
+				<when test="district == '경남'">
+					category like '%'||'경남'||'%'
+				</when>
+				<when test="district == '경북'">
+					category like '%'||'경북'||'%'
+				</when>
+				<when test="district == '전남'">
+					category like '%'||'전남'||'%'
+				</when>
+				<when test="district == '전북'">
+					category like '%'||'전북'||'%'
+				</when>
+				<when test="district == '충남'">
+					category like '%'||'충남'||'%'
+				</when>
+				<when test="district == '충북'">
+					category like '%'||'충북'||'%'
+				</when>
+				<when test="district == '제주'">
+					category like '%'||'제주'||'%'
+				</when>
+			</choose>
+		</trim>
+	</sql>
+	
+	<sql id="criteria_keyword">
+		<trim prefix="(" suffix=") and " prefixOverrides="or">
 			<foreach item="type" collection="typeArr">
 				<trim prefix="or">
 					<choose>
-						<when test="type == 'G'.toString()">
-							category like '%'||#{keyword}||'%'
-						</when>
-						<when test="type == 'D'.toString()">
-							district like '%'||#{keyword}||'%'
-						</when>
 						<when test="type == 'T'.toString()">
 							title like '%'||#{keyword}||'%'
 						</when>
@@ -46,7 +116,9 @@
 					tbl_board_sell
 				where
 				
-				<include refid="criteria"/>
+				<include refid="criteria_category"/>
+				<include refid="criteria_district"/>
+				<include refid="criteria_keyword"/>
 				
 		<![CDATA[		
 				  rownum <= #{pageNum} * #{amount}
